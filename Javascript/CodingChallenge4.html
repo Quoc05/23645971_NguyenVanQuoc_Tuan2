@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coding Challenge #4 - Tip Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .input-section {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        button {
+            padding: 12px 24px;
+            margin: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .calculate-btn {
+            background-color: #4CAF50;
+            color: white;
+            width: 100%;
+        }
+        .calculate-btn:hover {
+            background-color: #45a049;
+        }
+        .test-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .test-btn {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+        }
+        .test-btn:hover {
+            background-color: #0b7dda;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+            display: none;
+        }
+        #result.show {
+            display: block;
+        }
+        .result-item {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #333;
+        }
+        .label {
+            font-weight: bold;
+            color: #2e7d32;
+        }
+        .info-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #1565c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍽️ Tip Calculator</h1>
+        
+        <div class="input-section">
+            <label for="billValue">Enter Bill Value ($):</label>
+            <input type="number" id="billValue" placeholder="Enter the bill amount" min="0" step="0.01">
+            <button class="calculate-btn" onclick="calculateTip()">Calculate Tip</button>
+        </div>
+
+        <div id="result">
+            <div class="result-item">
+                <span class="label">Bill Value:</span> $<span id="displayBill">0.00</span>
+            </div>
+            <div class="result-item">
+                <span class="label">Tip Percentage:</span> <span id="displayTipPercent">0</span>%
+            </div>
+            <div class="result-item">
+                <span class="label">Tip Amount:</span> $<span id="displayTip">0.00</span>
+            </div>
+            <div class="result-item" style="border-top: 2px solid #4CAF50; padding-top: 10px; margin-top: 10px; font-size: 18px;">
+                <span class="label">Total Value:</span> $<span id="displayTotal">0.00</span>
+            </div>
+            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #ccc; font-size: 13px; color: #666;">
+                <span id="consoleMessage"></span>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <strong>Tipping Rules:</strong><br>
+            • 15% tip if bill is between $50 - $300<br>
+            • 20% tip for all other amounts
+        </div>
+
+        <div class="test-section">
+            <h3>Test Data</h3>
+            <button class="test-btn" onclick="testData(275)">Test $275</button>
+            <button class="test-btn" onclick="testData(40)">Test $40</button>
+            <button class="test-btn" onclick="testData(430)">Test $430</button>
+        </div>
+    </div>
+
+    <script>
+        function calculateTip() {
+            const billValue = parseFloat(document.getElementById("billValue").value);
+
+            // Validate input
+            if (isNaN(billValue) || billValue < 0) {
+                alert("Please enter a valid bill amount");
+                return;
+            }
+
+            // Calculate tip using ternary operator (NOT if/else)
+            const tip = billValue >= 50 && billValue <= 300 ? billValue * 0.15 : billValue * 0.20;
+            const tipPercent = billValue >= 50 && billValue <= 300 ? 15 : 20;
+            const totalValue = billValue + tip;
+
+            // Create console message
+            const consoleMessage = `The bill was ${billValue.toFixed(2)}, the tip was ${tip.toFixed(2)}, and the total value ${totalValue.toFixed(2)}`;
+
+            // Display results
+            displayResults(billValue, tip, tipPercent, totalValue, consoleMessage);
+        }
+
+        function testData(amount) {
+            document.getElementById("billValue").value = amount;
+            calculateTip();
+        }
+
+        function displayResults(bill, tip, tipPercent, total, message) {
+            document.getElementById("displayBill").textContent = bill.toFixed(2);
+            document.getElementById("displayTipPercent").textContent = tipPercent;
+            document.getElementById("displayTip").textContent = tip.toFixed(2);
+            document.getElementById("displayTotal").textContent = total.toFixed(2);
+            document.getElementById("consoleMessage").textContent = message;
+            
+            // Show result section
+            document.getElementById("result").classList.add("show");
+
+            // Log to console
+            console.log(message);
+        }
+    </script>
+</body>
+</html>

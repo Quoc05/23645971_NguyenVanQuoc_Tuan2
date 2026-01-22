@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coding Challenge #3 - Gymnastics Teams</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .team-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input {
+            margin: 5px;
+            padding: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            font-size: 16px;
+            min-height: 80px;
+        }
+        .test-data {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e3f2fd;
+            border-radius: 5px;
+        }
+        .test-btn {
+            background-color: #2196F3;
+            margin: 5px;
+        }
+        .test-btn:hover {
+            background-color: #0b7dda;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gymnastics Competition - Average Score Calculator</h1>
+        
+        <div class="team-section">
+            <h2>Dolphins Scores</h2>
+            <label>Score 1:</label>
+            <input type="number" id="dolphin1" placeholder="Score 1">
+            <label>Score 2:</label>
+            <input type="number" id="dolphin2" placeholder="Score 2">
+            <label>Score 3:</label>
+            <input type="number" id="dolphin3" placeholder="Score 3">
+        </div>
+
+        <div class="team-section">
+            <h2>Koalas Scores</h2>
+            <label>Score 1:</label>
+            <input type="number" id="koala1" placeholder="Score 1">
+            <label>Score 2:</label>
+            <input type="number" id="koala2" placeholder="Score 2">
+            <label>Score 3:</label>
+            <input type="number" id="koala3" placeholder="Score 3">
+        </div>
+
+        <button onclick="calculateWinner()">Calculate Winner</button>
+        <button onclick="calculateWinnerBonus()">Calculate Winner (with Minimum Score)</button>
+
+        <div id="result"></div>
+
+        <div class="test-data">
+            <h3>Test Data</h3>
+            <button class="test-btn" onclick="testData1()">Data 1</button>
+            <button class="test-btn" onclick="testData2()">Data Bonus 1</button>
+            <button class="test-btn" onclick="testData3()">Data Bonus 2</button>
+        </div>
+    </div>
+
+    <script>
+        function calculateWinner() {
+            const dolphin1 = parseFloat(document.getElementById("dolphin1").value);
+            const dolphin2 = parseFloat(document.getElementById("dolphin2").value);
+            const dolphin3 = parseFloat(document.getElementById("dolphin3").value);
+
+            const koala1 = parseFloat(document.getElementById("koala1").value);
+            const koala2 = parseFloat(document.getElementById("koala2").value);
+            const koala3 = parseFloat(document.getElementById("koala3").value);
+
+            const dolphinAvg = (dolphin1 + dolphin2 + dolphin3) / 3;
+            const koalaAvg = (koala1 + koala2 + koala3) / 3;
+
+            let result = `Dolphins Average: ${dolphinAvg.toFixed(2)}<br>`;
+            result += `Koalas Average: ${koalaAvg.toFixed(2)}<br><br>`;
+
+            if (dolphinAvg > koalaAvg) {
+                result += ` Dolphins win with an average of ${dolphinAvg.toFixed(2)}!`;
+            } else if (koalaAvg > dolphinAvg) {
+                result += ` Koalas win with an average of ${koalaAvg.toFixed(2)}!`;
+            } else {
+                result += ` It's a draw! Both teams have an average of ${dolphinAvg.toFixed(2)}!`;
+            }
+
+            console.log(result);
+            document.getElementById("result").innerHTML = result;
+        }
+
+        function calculateWinnerBonus() {
+            const dolphin1 = parseFloat(document.getElementById("dolphin1").value);
+            const dolphin2 = parseFloat(document.getElementById("dolphin2").value);
+            const dolphin3 = parseFloat(document.getElementById("dolphin3").value);
+
+            const koala1 = parseFloat(document.getElementById("koala1").value);
+            const koala2 = parseFloat(document.getElementById("koala2").value);
+            const koala3 = parseFloat(document.getElementById("koala3").value);
+
+            const dolphinAvg = (dolphin1 + dolphin2 + dolphin3) / 3;
+            const koalaAvg = (koala1 + koala2 + koala3) / 3;
+
+            const minScore = 100;
+
+            let result = `Dolphins Average: ${dolphinAvg.toFixed(2)}<br>`;
+            result += `Koalas Average: ${koalaAvg.toFixed(2)}<br>`;
+            result += `Minimum Required Score: ${minScore}<br><br>`;
+
+            if (dolphinAvg > koalaAvg && dolphinAvg >= minScore) {
+                result += `🏆 Dolphins win with an average of ${dolphinAvg.toFixed(2)}!`;
+                console.log(`Dolphins win with an average of ${dolphinAvg.toFixed(2)}!`);
+            } else if (koalaAvg > dolphinAvg && koalaAvg >= minScore) {
+                result += ` Koalas win with an average of ${koalaAvg.toFixed(2)}!`;
+                console.log(`Koalas win with an average of ${koalaAvg.toFixed(2)}!`);
+            } else if (dolphinAvg === koalaAvg && dolphinAvg >= minScore) {
+                result += ` It's a draw! Both teams have an average of ${dolphinAvg.toFixed(2)}!`;
+                console.log(`Draw! Both teams have an average of ${dolphinAvg.toFixed(2)}!`);
+            } else {
+                result += ` No team wins! Neither team met the minimum score requirement of ${minScore}.`;
+                console.log(`No team wins! Neither team met the minimum score requirement.`);
+            }
+
+            document.getElementById("result").innerHTML = result;
+        }
+
+        // Test Data Functions
+        function testData1() {
+            // Data 1: Dolphins 96, 108, 89 | Koalas 88, 91, 110
+            document.getElementById("dolphin1").value = 96;
+            document.getElementById("dolphin2").value = 108;
+            document.getElementById("dolphin3").value = 89;
+            document.getElementById("koala1").value = 88;
+            document.getElementById("koala2").value = 91;
+            document.getElementById("koala3").value = 110;
+            calculateWinner();
+        }
+
+        function testData2() {
+            // Data Bonus 1: Dolphins 97, 112, 101 | Koalas 109, 95, 123
+            document.getElementById("dolphin1").value = 97;
+            document.getElementById("dolphin2").value = 112;
+            document.getElementById("dolphin3").value = 101;
+            document.getElementById("koala1").value = 109;
+            document.getElementById("koala2").value = 95;
+            document.getElementById("koala3").value = 123;
+            calculateWinnerBonus();
+        }
+
+        function testData3() {
+            // Data Bonus 2: Dolphins 97, 112, 101 | Koalas 109, 95, 106
+            document.getElementById("dolphin1").value = 97;
+            document.getElementById("dolphin2").value = 112;
+            document.getElementById("dolphin3").value = 101;
+            document.getElementById("koala1").value = 109;
+            document.getElementById("koala2").value = 95;
+            document.getElementById("koala3").value = 106;
+            calculateWinnerBonus();
+        }
+    </script>
+</body>
+</html>
