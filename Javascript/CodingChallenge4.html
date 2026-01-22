@@ -154,21 +154,16 @@
         function calculateTip() {
             const billValue = parseFloat(document.getElementById("billValue").value);
 
-            // Validate input
             if (isNaN(billValue) || billValue < 0) {
                 alert("Please enter a valid bill amount");
                 return;
             }
-
-            // Calculate tip using ternary operator (NOT if/else)
             const tip = billValue >= 50 && billValue <= 300 ? billValue * 0.15 : billValue * 0.20;
             const tipPercent = billValue >= 50 && billValue <= 300 ? 15 : 20;
             const totalValue = billValue + tip;
 
-            // Create console message
             const consoleMessage = `The bill was ${billValue.toFixed(2)}, the tip was ${tip.toFixed(2)}, and the total value ${totalValue.toFixed(2)}`;
 
-            // Display results
             displayResults(billValue, tip, tipPercent, totalValue, consoleMessage);
         }
 
@@ -184,10 +179,8 @@
             document.getElementById("displayTotal").textContent = total.toFixed(2);
             document.getElementById("consoleMessage").textContent = message;
             
-            // Show result section
             document.getElementById("result").classList.add("show");
 
-            // Log to console
             console.log(message);
         }
     </script>
